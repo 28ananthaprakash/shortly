@@ -1,15 +1,47 @@
 #!/bin/bash
 
-# Define an array of messages
-messages[0]="🐞 Fixed a sneaky bug"
-messages[1]="🥶 Implemented cool feature"
-messages[2]="🧹 Cleaned up codebase"
-messages[3]="🧈 Merged code buttery smooth"
-messages[4]="🐆 Performance optimized like cheetah"
-messages[5]="🌱 Code's minty fresh"
-messages[6]="📄 Updated docs as reading matters"
-messages[7]="🔧 Fixed the thing, again"
-messages[8]="✨ Made it work, magically"
+# Randomly determine whether to make a commit (0-5 commits per day)
+# Since we run 6 times per day, if we have ~83% chance to skip, we'll get ~1 commit per day on average
+commitDecision=$((RANDOM % 6))  # 0-5
+
+# If commitDecision is 0, we make a commit, otherwise exit
+if [ $commitDecision -gt 0 ]; then
+    echo "Skipping commit this time"
+    exit 0
+fi
+
+# Define an array of messages with more realistic and meaningful development messages
+messages=(
+    "🐞 Fixed URL validation bug in shortener service"
+    "🚀 Implemented analytics dashboard feature"
+    "🧹 Refactored link management module"
+    "🔄 Merged backend pagination enhancements"
+    "⚡ Optimized database query performance"
+    "🌱 Added new redirect tracking capabilities"
+    "📄 Updated API documentation with examples"
+    "🔧 Fixed CORS issues in API endpoints"
+    "✨ Enhanced user authentication system"
+    "🔒 Implemented security fixes for XSS vulnerabilities"
+    "📱 Improved mobile responsiveness across views"
+    "🧪 Added unit tests for core components"
+    "📦 Updated dependency packages to latest versions"
+    "🎨 Redesigned dashboard UI for better usability"
+    "💾 Optimized database schema for link storage"
+    "🔍 Added search functionality for links"
+    "🧩 Modularized shared components for reuse"
+    "🌐 Added support for international URLs"
+    "📊 Implemented click-through analytics"
+    "🛡️ Enhanced rate limiting for API protection"
+    "📌 Fixed redirect chain handling"
+    "🏁 Performance optimized frontend bundle"
+    "📬 Improved email notification service"
+    "👤 Enhanced user profile management"
+    "🌟 Added link tagging and categorization"
+    "🗄️ Optimized caching strategy for popular links"
+    "📈 Improved analytics data aggregation"
+    "⚙️ Updated configuration for production deployment"
+    "🔗 Enhanced custom domain support"
+)
 
 # Generate a random number to select a message from the array
 randomNum=$(($RANDOM % ${#messages[@]}))
@@ -22,14 +54,6 @@ if [ ! -e "update.md" ]; then
     touch update.md
     git add update.md
 fi
-
-# Generate a random number and format it as a cron expression
-cronValue=$(($RANDOM % 6))
-cronExpression="0 ${cronValue} * * *" # 0 0-5 * * *
-
-# Replace the existing cron expression with the new one in bot.yml file
-sed -i "s/- cron: .*/- cron: \"${cronExpression}\"/" .github/workflows/bot.yml
-
 
 # Append text to update.md, indicating the last update time
 echo "## 🤔 LAST UPDATED ON: ${currentTimestamp}" >update.md
