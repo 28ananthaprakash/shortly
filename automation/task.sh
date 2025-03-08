@@ -23,6 +23,14 @@ if [ ! -e "update.md" ]; then
     git add update.md
 fi
 
+# Generate a random number and format it as a cron expression
+cronValue=$(($RANDOM % 6))
+cronExpression="0 ${cronValue} * * *" # 0 0-5 * * *
+
+# Replace the existing cron expression with the new one in bot.yml file
+sed -i "s/- cron: .*/- cron: \"${cronExpression}\"/" .github/workflows/bot.yml
+
+
 # Append text to update.md, indicating the last update time
 echo "## 🤔 LAST UPDATED ON: ${currentTimestamp}" >update.md
 
