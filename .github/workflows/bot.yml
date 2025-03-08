@@ -9,8 +9,8 @@ on:
 
   # Schedule the workflow to run using a cron expression
   schedule:
-    # Runs once a day
-    - cron: "0 3 * * *"
+    # Runs every 4 hours (6 times per day)
+    - cron: "0 */4 * * *"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
