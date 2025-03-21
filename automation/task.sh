@@ -1,11 +1,12 @@
 #!/bin/bash
 
-# Randomly determine whether to make a commit (0-5 commits per day)
-# Since we run 6 times per day, if we have ~83% chance to skip, we'll get ~1 commit per day on average
-commitDecision=$((RANDOM % 6))  # 0-5
+# Randomly determine whether to make a commit
+# With 12 runs per day and ~60-70% commit probability, we'll get ~7-8 commits per day
+# Using a range of 0-9 and committing on values 0-6 gives us 70% probability
+commitDecision=$((RANDOM % 10))  # 0-9
 
-# If commitDecision is 0, we make a commit, otherwise exit
-if [ $commitDecision -gt 0 ]; then
+# If commitDecision is within 0-6 (70% chance), we make a commit, otherwise exit
+if [ $commitDecision -gt 6 ]; then
     echo "Skipping commit this time"
     exit 0
 fi
